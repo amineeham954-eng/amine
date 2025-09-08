@@ -1,5 +1,5 @@
 # Étape 1 : Builder avec Maven
-FROM maven:3.9.2-eclipse-temurin-21 AS build
+FROM maven:3.9.2-jdk-21 AS build
 WORKDIR /app
 
 # Copier le fichier pom.xml et le dossier src
@@ -14,7 +14,7 @@ FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
 # Copier le jar depuis l'étape build
-COPY --from=build /app/target/mon-projet-java-1.0-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/projetjava-1.0-SNAPSHOT.jar app.jar
 
 # Commande pour lancer l'application
 CMD ["java", "-jar", "app.jar"]
