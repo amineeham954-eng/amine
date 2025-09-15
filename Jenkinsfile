@@ -3,6 +3,9 @@ pipeline {
     tools {
         maven "maven"  // Nom exact configuré dans Jenkins
     }
+    environment {
+        scannerHome = tool "SonarScanner"  // Nom défini dans Global Tool Configuration
+    }
     stages {
         stage('Clone repo Git') {
             steps {
@@ -14,6 +17,21 @@ pipeline {
             steps {
                 // Aller dans le dossier 'amine' (nom du repo cloné)
                 sh "cd amine && mvn package -DskipTests"
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sq1') {  // Nom du serveur SonarQube dans Jenkins
+                    sh """
+                        cd amine && ${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=sq1 \        // Clé du projet SonarQube
+                        -Dsonar.projectName=projetjava \
+                        -Dsonar.sources=src \
+                        -Dsonar.java.binaries=target \
+                        -Dsonar.host.url=http://sonarqube:9000 \
+                        -Dsonar.login=${sq1}
+                    """
+                }
             }
         }
         stage('Build Docker Image') {
@@ -33,3 +51,4 @@ pipeline {
         }
     }
 }
+

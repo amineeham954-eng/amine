@@ -1,3 +1,4 @@
+version: '3.9'
 services:
   jenkins:
     image: jenkins/jenkins:lts
@@ -8,5 +9,22 @@ services:
       - "50000:50000"
     volumes:
       - /var/jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock   # 👈 ajoute ça
-      - /usr/bin/docker:/usr/bin/docker             # 👈 ajoute ça
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    networks:
+      - cicd
+
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    networks:
+      - cicd
+
+networks:
+  cicd:
+    driver: bridge
+
