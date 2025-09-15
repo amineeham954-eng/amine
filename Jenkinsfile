@@ -15,7 +15,6 @@ pipeline {
         }
         stage('Build Maven') {
             steps {
-                // Aller dans le dossier 'amine' (nom du repo cloné)
                 sh "cd amine && mvn package -DskipTests"
             }
         }
@@ -23,13 +22,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sq1') {  // Nom du serveur SonarQube dans Jenkins
                     sh """
-                        cd amine && ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=sq1 \        // Clé du projet SonarQube
-                        -Dsonar.projectName=projetjava \
-                        -Dsonar.sources=src \
-                        -Dsonar.java.binaries=target \
-                        -Dsonar.host.url=http://sonarqube:9000 \
-                        -Dsonar.login=${sq1}
+                        cd amine && ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=sq1 -Dsonar.projectName=projetjava -Dsonar.sources=src -Dsonar.java.binaries=target -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${SONAR_TOKEN}
                     """
                 }
             }
