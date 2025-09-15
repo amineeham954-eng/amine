@@ -22,7 +22,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sq1') {  // Nom du serveur SonarQube dans Jenkins
                     sh """
-                        cd amine && ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=sq1 -Dsonar.projectName=projetjava -Dsonar.sources=src -Dsonar.java.binaries=target -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${SONAR_TOKEN}
+                        cd amine && ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=projetjava -Dsonar.projectName=projetjava -Dsonar.sources=src -Dsonar.java.binaries=target -Dsonar.host.url=http://http://192.168.23.128/:9000 -Dsonar.login=${SONAR_TOKEN}
                     """
                 }
             }
