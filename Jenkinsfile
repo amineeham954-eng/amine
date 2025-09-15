@@ -4,7 +4,7 @@ pipeline {
         maven "maven"  // Nom exact configuré dans Jenkins
     }
     environment {
-        scannerHome = tool "SonarScanner"  // Nom défini dans Global Tool Configuration
+        scannerHome = tool "sq1"  // Nom défini dans Global Tool Configuration
     }
     stages {
         stage('Clone repo Git') {
