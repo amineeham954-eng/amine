@@ -1,4 +1,4 @@
 # Ignorer les fichiers locaux
-*.txt
+*.log	
 
 
